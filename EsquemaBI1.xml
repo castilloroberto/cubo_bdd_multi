@@ -1,0 +1,94 @@
+<Schema name="EsquemaBI">
+
+	<!-- Inicio de Cubo -->
+
+  <Cube name="Ventas" visible="true" cache="true" enabled="true">
+  
+  		<!-- Tabla de hechos -->
+  	
+    <Table name="fact_ordenes">
+    </Table>
+    
+    		<!-- Tabla de hechos -->
+
+
+  		<!-- Dimencion de Productos -->
+
+    <Dimension type="StandardDimension" visible="true" foreignKey="ProductID" highCardinality="false" name="Productos">
+      <Hierarchy name="Producto" visible="true" hasAll="true" primaryKey="ProductID">
+        <Table name="dim_productos">
+        </Table>
+        <Level name="Categoria" visible="true" column="CategoryName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="NombreProducto" visible="true" column="ProductName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    		<!-- Dimencion de Productos -->
+
+    
+  		<!-- Dimencion de Sucursales -->
+    
+    <Dimension type="StandardDimension" visible="true" foreignKey="TerritoryID" highCardinality="false" name="Sucursales">
+      <Hierarchy name="Sucursal" visible="true" hasAll="true">
+        <Table name="dim_sucursales">
+        </Table>
+        <Level name="Region" visible="true" column="RegionDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="Territorio" visible="true" column="TerritoryDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    		<!-- Dimencion de Sucursales -->
+    
+    
+    		<!-- Dimencion de Tiempo -->
+
+
+    <Dimension type="TimeDimension" visible="true" foreignKey="OrderDate" name="Tiempo">
+      <Hierarchy name="detalle_anio" visible="true" hasAll="true" primaryKey="dim_tiempo_fecha">
+        <Table name="dim_tiempo" alias="">
+        </Table>
+        <Level name="Anio" visible="true" column="dim_tiempo_anio" type="Integer" uniqueMembers="true" levelType="TimeYears">
+        </Level>
+        <Level name="Trimestre" visible="true" column="dim_tiempo_trimestre" type="String" uniqueMembers="false" levelType="TimeQuarters">
+        </Level>
+        <Level name="Mes" visible="true" column="dim_tiempo_mes_nombre" ordinalColumn="dim_tiempo_mes" type="String" uniqueMembers="false" levelType="TimeMonths">
+        </Level>
+      </Hierarchy>
+            
+      <Hierarchy name="detalle_mes" visible="true" hasAll="true" primaryKey="dim_tiempo_fecha">
+        <Table name="dim_tiempo" alias="">
+        </Table>
+        <Level name="Anio" visible="true" column="dim_tiempo_anio" type="Integer" uniqueMembers="true" levelType="TimeYears">
+        </Level>
+        <Level name="Mes" visible="true" column="dim_tiempo_mes_nombre" ordinalColumn="dim_tiempo_mes" type="String" uniqueMembers="false" levelType="TimeMonths">
+        </Level>
+        <Level name="Dia" visible="true" column="dim_tiempo_fecha" type="Date" uniqueMembers="true" levelType="TimeDays">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    
+    		<!-- Dimencion de Tiempo -->
+
+
+    		<!-- Medida sumacantidad de productos -->
+
+    <Measure name="SumaCantidad" column="Quantity" aggregator="sum" visible="true">
+    </Measure>
+    		<!-- Medida sumacantidad de productos -->
+
+    		<!-- Medida sumatotal de venta -->
+
+    <Measure name="SumaTotal" column="Total" aggregator="sum" visible="true">
+    </Measure>
+    		<!-- Medida sumatotal de venta -->
+
+
+  </Cube>
+    	<!-- fin del cubo -->
+
+</Schema>

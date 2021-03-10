@@ -1,0 +1,14 @@
+
+Creación de un Cubo OLAP
+
+Esquema: Contenedor del cubo
+	- Cubo (Ventas): 
+		- Dimension (Productos):
+			* Tiene al menos una jerarquía (Producto): La jerarquia debe tener una PK (ProductID)
+				- Se le agrega una tabla (dim_productos) para definirle la PK a la jerarquía
+				- Ya con la tabla, se le pueden agregar niveles (Categoria, NombreProducto)
+			
+			* La dimensión producto debe tener la PK (ProductID) de la tabla de hechos
+			
+		- Tabla de hechos (Tabla - fact_ordenes): Se usa para que las dimensiones sepan con quien se relacionan sus datos
+		- Medidas: El cubo debe tener medidas usando columnas de la tabla de hechos
